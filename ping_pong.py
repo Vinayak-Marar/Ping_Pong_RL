@@ -4,9 +4,9 @@ import sys
 
 # --- Game settings ---
 WIDTH, HEIGHT = 800, 600
-BALL_RADIUS = 10
+BALL_RADIUS = 50
 PADDLE_WIDTH, PADDLE_HEIGHT = 100, 12
-FPS = 120
+FPS = 60
 PADDLE_SPEED = 7
 BALL_SPEED_MIN = 4
 BALL_SPEED_MAX = 6
@@ -105,7 +105,7 @@ def main():
                 hits += 1
 
         # Missed the paddle (ball fell below bottom)
-        if ball_y - BALL_RADIUS > HEIGHT:
+        if ball_y + BALL_RADIUS > HEIGHT:
             misses += 1
             # reset ball to center with new random velocity
             ball_x, ball_y, ball_vx, ball_vy = reset_ball()

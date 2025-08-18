@@ -3,7 +3,7 @@ from sklearn.kernel_approximation import RBFSampler
 import pickle
 import os
 
-ACTION_SPACE = ("L","R",None)
+ACTION_SPACE = ("L","R","None")
 ACTION2INT = {a: i for i, a in enumerate(ACTION_SPACE)}
 INT2ONEHOT = np.eye(len(ACTION_SPACE))
 SAMPLE_SIZE = 10000
@@ -43,7 +43,7 @@ class LRModel:
             with open("samples.pkl","rb") as f:
                 samples = pickle.load(f)
 
-        self.featurizer = RBFSampler()
+        self.featurizer = RBFSampler(n_components=100, random_state=0)
         self.featurizer.fit(samples)
         dims = self.featurizer.n_components
 

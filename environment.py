@@ -1,5 +1,6 @@
 import pygame
 import random
+import numpy as np
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -43,7 +44,7 @@ class PingPong:
         self.paddle_y = self.height - self.paddle_height - 0
 
         self.hits = 0
-        self.miss = 0
+        self.misses = 0
 
 
     def step(self,action):
@@ -82,11 +83,14 @@ class PingPong:
                 self.ball_vy *= self.increased_speed*-1
                 self.ball_vx *= self.increased_speed
                 
-                reward = 1
+                reward = 2
                 self.hits += 1
 
+        if self.ball_y < self.height//2:
+            reward +=0.1
+
         # Missed the paddle (ball fell below bottom)
-        if self.ball_y - self.ball_radius > self.height:
+        if self.ball_y + self.ball_radius > self.height:
             reward = -1
             self.misses += 1
             if self.misses == 3:
@@ -97,18 +101,18 @@ class PingPong:
         return self._get_state(),reward, bool(self.misses == 3)
 
     def _get_state(self):
-        return [self.ball_x,
-                self.ball_y,
-                self.ball_vx,
-                self.ball_vy,
-                self.paddle_x]
+        return [float(self.ball_x/self.width),
+                float(self.ball_y/self.height),
+                float(self.ball_vx/self.ball_speed),
+                float(self.ball_vy/self.ball_speed),
+                float(self.paddle_x/self.width)]
 
     def reset(self):
         self.ball_x = self.width//2
         self.ball_y = self.height // 2
         self.ball_vx = random.choice([-1,1])*self.ball_speed
         self.ball_vy = random.choice([-1,1])*self.ball_speed
-        self.paddle_x = self.width // 2
+        self.paddle_x = (self.width - self.paddle_width)//2
         self.hits = 0
         self.misses = 0
         return self._get_state()
