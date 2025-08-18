@@ -82,7 +82,6 @@ def main():
 
         # Bounce top
         if ball_y - BALL_RADIUS <= 0:
-            print(ball_y)
             ball_y = BALL_RADIUS
             ball_vy *= -1
 
@@ -93,7 +92,7 @@ def main():
             ):
                 # reflect vertically
                 ball_y = paddle_y - BALL_RADIUS
-                ball_vy *= INCREASED_SPEED
+                ball_vy *= INCREASED_SPEED*-1
                 ball_vx *= INCREASED_SPEED
 
                 # clamp speed to avoid too-slow or too-fast
