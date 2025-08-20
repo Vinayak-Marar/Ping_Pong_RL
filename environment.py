@@ -49,6 +49,7 @@ class PingPong:
 
     def step(self,action):
 
+        done = False
         reward = 0
 
         if action=="L":
@@ -95,10 +96,14 @@ class PingPong:
             self.misses += 1
             if self.misses == 3:
                 reward = -5
+                done = True
             # reset ball to center with new random velocity
             self.reset_ball()
 
-        return self._get_state(),reward, bool(self.misses == 3)
+            if self.hits == 5:
+                done = True
+                print("Bazzuka")
+        return self._get_state(),reward, done
 
     def _get_state(self):
         return [float(self.ball_x/self.width),

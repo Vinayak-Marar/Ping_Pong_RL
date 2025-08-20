@@ -8,7 +8,7 @@ import os
 
 EPSILON = 0.1
 ACTION_SPACE = ("L", "R", "None")
-EPISODES = 50000
+EPISODES = 80000
 ALPHA = 0.1
 GAMMA = 0.99
 
@@ -39,14 +39,14 @@ def epsilon_greedy(model, state, eps=EPSILON):
 
 env = PingPong(fps=150)
 model = LRModel(env)
-with open("weights_2/weights_14000.pkl", "rb") as f:
+with open("weights_2/weights_49000.pkl", "rb") as f:
     weights = pickle.load(f)
 
 model.w = weights
 
 total_rewards = []
 
-for i in range(14001,EPISODES):
+for i in range(49001,EPISODES+1):
 
     if i%200 == 0:
         with open(f"weights_2/weights_{i}.pkl", "wb") as f:

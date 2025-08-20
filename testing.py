@@ -5,8 +5,8 @@ from lrmodel import LRModel
 import pygame
 import matplotlib.pyplot as plt
 
-EPSILON = 0.0
-env = PingPong(fps=30)
+EPSILON = 0.2
+env = PingPong(fps=100)
 model = LRModel(env)
 GAMMA = 0.95
 ACTION_SPACE = ("L", "R", "None")
@@ -28,7 +28,7 @@ def epsilon_greedy(model, state, eps=EPSILON):
         values = model.predict_all_action(state)
         return ACTION_SPACE[np.argmax(values)]
 
-with open("weights_2/weights_26000.pkl", "rb") as f:
+with open("weights_2/weights_38000.pkl", "rb") as f:
     weights = pickle.load(f)
     print(weights)
 
@@ -64,10 +64,27 @@ while not done:
 
 print(episode_reward)
 
-# with open("weights_2/reward_26000.pkl", "rb") as f:
-#     reward = pickle.load(f)
+with open("weights_2/reward_14000.pkl", "rb") as f:
+    reward_1 = pickle.load(f)
+
+with open("weights_2/reward_26000.pkl", "rb") as f:
+    reward_2 = pickle.load(f)
+
+with open("weights_2/reward_37000.pkl", "rb") as f:
+    reward_3 = pickle.load(f)
+
+with open("weights_2/reward_38000.pkl", "rb") as f:
+    reward_4 = pickle.load(f)
+
+with open("weights_2/reward_49000.pkl", "rb") as f:
+    reward_5 = pickle.load(f)
 
 
+reward = np.concatenate((reward_1, reward_2, reward_3, reward_4, reward_5))
 
-# plt.plot(moving_average(reward, 500))
-# plt.show()
+print(len(reward))
+print(np.max(reward))
+print(np.argmax(reward))
+
+plt.plot(moving_average(reward, 1000))
+plt.show()
